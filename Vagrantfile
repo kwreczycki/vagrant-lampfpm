@@ -7,7 +7,10 @@ Vagrant.configure("2") do |config|
   # please see the online documentation at vagrantup.com.
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "base"
+  config.vm.box = "precise32"
+  config.vm.hostname = "dev"
+
+  config.vm.provision :shell, :path => "bootstrap.sh"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -67,9 +70,9 @@ Vagrant.configure("2") do |config|
   # # }
   #
    config.vm.provision :puppet do |puppet|
-     puppet.manifests_path = "manifests"
+     puppet.manifests_path = "puppet/manifests"
      puppet.manifest_file  = "init.pp"
-     puppet.module_path    = "modules"
+     puppet.module_path    = "puppet/modules"
    end
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
