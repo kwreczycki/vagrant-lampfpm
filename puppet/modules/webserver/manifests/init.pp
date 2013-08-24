@@ -16,6 +16,10 @@ class webserver {
 	    ensure => running,
 	    require => Package["mysql-server"]
 	}
+	service { 'php5-fpm':
+	    ensure => running,
+	    require => Package["php5-fpm"]
+	}
 	exec {'enable-mod':
 	    command => "/usr/sbin/a2enmod actions fastcgi alias"
 	}
