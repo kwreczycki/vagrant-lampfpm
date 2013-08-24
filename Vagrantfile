@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise32"
   config.vm.hostname = "vagrant-fpm.dev"
 
-  config.vm.provision :shell, :path => "bootstrap.sh"
+  config.vm.provision :shell, :inline => "echo '[default] Update repositories - aptitude update' && aptitude update >> /dev/null"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
