@@ -1,7 +1,7 @@
 node default {
     include webserver
     apache::vhost {'developer-site':
-	vhost_domain => 'kwreczycki-sf.dev',
-	docroot => '/var/www/kwreczycki'
+	vhost_domain => 'vagrant-fpm.dev',
+	docroot => '/var/www/vagrant-fpm.dec'
     }
 }
