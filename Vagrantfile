@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise32"
   config.vm.hostname = "vagrant-fpm.dev"
 
-  config.vm.provision :shell, :inline => "echo '[default] Update repositories - aptitude update' && aptitude update >> /dev/null"
+  config.vm.provision :shell, :inline => "echo '[default] Update repositories - aptitude update' && aptitude update >> /dev/null && aptitude install puppet -y >> /dev/null"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
@@ -73,7 +73,7 @@ Vagrant.configure("2") do |config|
      puppet.manifests_path = "puppet/manifests"
      puppet.manifest_file  = "init.pp"
      puppet.module_path    = "puppet/modules"
-     # puppet.options        = "--verbose -e \'Exec { path => \"\/bin\" }\'"
+     #puppet.options        = "--verbose --debug"
    end
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
