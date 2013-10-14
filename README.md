@@ -5,7 +5,7 @@ Configuration for setup LAMP enviroment with php-fpm on Vagrant ubuntu precise32
 
 setup
 ---------------
-Install vagrant package, clone repository and add hostaname to Your /etc/hosts file, by default it should be:
+Install vagrant package, clone repository and add host name to Your /etc/hosts file, by default it should be:
 ```
 192.168.50.33 vagrant-fpm.dev
 ```
