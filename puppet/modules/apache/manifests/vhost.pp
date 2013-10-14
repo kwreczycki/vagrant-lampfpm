@@ -1,5 +1,5 @@
-define apache::vhost($vhost_domain, $docroot) {
-	file {$docroot:
+define apache::vhost($vhost_domain) {
+	file {"/var/www/${vhost_domain}":
 	    ensure => directory,
 	    mode => 0777,
 	    owner => www-data,

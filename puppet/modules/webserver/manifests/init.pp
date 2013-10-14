@@ -9,7 +9,7 @@ class webserver {
 	    ensure => running,
 	    require => Package["apache2-mpm-worker"]
 	}
-	package { ['mysql-server', 'mysql-client', 'libapache2-mod-fastcgi', 'php5-fpm', 'php5', 'php5-mysql', 'libaugeas-ruby', 'augeas-tools']:
+	package { ['mysql-server', 'mysql-client', 'libapache2-mod-fastcgi', 'php5-fpm', 'php5', 'php5-mysql']:
 	    ensure => installed;
 	}
 	service { 'mysql':
@@ -22,21 +22,16 @@ class webserver {
 	}
 	exec {'enable-mod':
 	    command => "/usr/sbin/a2enmod actions fastcgi alias"
+	}
+        exec {'disable-default':
+            command => "/usr/sbin/a2dissite 000-default",
+            notify => Exec["reload-apache2"]
+        }
+	file {'/etc/apache2/mods-available/fastcgi.conf':
+            ensure => present,
+	    content => template('webserver/fastcgi.conf.erb'),
+            owner => 'root',
+            group => 'root',
+	    mode => 0644,
 	}	
-	augeas { "mod_fcgi":
-		context => "/files/etc/apache2/mods-available/fastcgi.conf/IfModule/",
-	    changes => [
-			"set *[self::directive='AddHandler']/arg[1] php5-fcgi",
-			"set *[self::directive='AddHandler']/arg[2] .php",
-			"set *[self::directive='Action']/arg[1] php5-fcgi",
-			"set *[self::directive='Action']/arg[2] /php5-fcgi",
-			"set *[self::directive='Alias']/arg[1] /php5-fcgi",
-			"set *[self::directive='Alias']/arg[2] /usr/lib/cgi-bin/php5-fcgi",
-			"set *[self::directive='FastCgiExternalServer']/arg '\"/usr/lib/cgi-bin/php5-fcgi -socket /var/run/php5-fpm.sock -pass-header Authorization\"'",
-	    ],
-	    notify => Exec['remove-double-quotes']
-	}
-	exec {'remove-double-quotes':
-		command => '/bin/cat /etc/apache2/mods-available/fastcgi.conf | /usr/bin/tr -d \'"\' > /tmp/foo && mv /tmp/foo /etc/apache2/mods-available/fastcgi.conf'	
-	}
 }
